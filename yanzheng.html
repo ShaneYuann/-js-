@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>验证登录</title>
+    <style>
+        
+        button{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            width:100px;
+            height:100px;
+            background-color: #ccc;
+        }
+        .checkblock{
+            position: relative;
+            width: 500px;
+            height: 300px;
+        }
+        .check{
+            position: absolute;
+            left:10%;
+            width:300px;
+            height: 200px;
+            background-repeat:no-repeat;
+            background-image: url('./hua.jpg');
+        }
+        .check::before{
+            content: '';
+            width:50px;
+            height:50px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px #fff solid;
+            position: absolute;
+            top:50px;
+            left:150px;
+        }
+        .check-child{
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 1px #fff solid;
+            position: absolute;
+            top:50px;
+            left:10px;
+            background-image: inherit;
+            background-repeat: inherit;
+            background-position:-150px -50px ;
+        }
+        .drag{
+            position: relative;
+            width: 300px;
+            height:50px;
+            
+            background-color: #ccc;
+            top: 210px;
+            left:10%;
+            font-size: 10px;
+            text-align: right;
+            line-height: 50px;
+            user-select: none;
+        }
+        .drag-child{
+            width: 50px;
+            height: 50px;
+            background-color: aqua;
+            position: absolute;
+            top:0px;
+            left:10px;
+            z-index: 5;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <button>获取验证码</button>
+    <div class="checkblock">
+        <div class="check">
+            <div class="check-child"></div>
+            
+        </div>
+        <div class="drag">
+            按住左边按钮向右拖动完成上方图像验证
+            
+            <div class="drag-child"></div>
+        </div>
+    </div>
+    <script>
+        let drag_child = document.querySelector('.drag-child')
+        let check_child = document.querySelector('.check-child')
+        const dragMouseDown = ()=>{
+            console.log(111);
+            drag_child.addEventListener('mousemove',dragMouseMove)  
+            drag_child.addEventListener('mouseout',dragMouseUp) 
+        }
+        const dragMouseUp = ()=>{
+            drag_child.removeEventListener('mousemove',dragMouseMove)
+            drag_child.style.left = 10 +'px';
+            check_child.style.left = 10 +'px'; 
+        }
+        const dragMouseMove = (e)=>{
+            let drag_x = drag_child.offsetLeft + e.movementX;
+            if(drag_x < 0){
+                drag_x = 0;
+            }
+            if(drag_x >250){
+                drag_x = 250;
+            }
+            drag_child.style.left = drag_x +'px';
+            check_child.style.left = drag_x +'px'; 
+        }
+        drag_child.addEventListener('mousedown',dragMouseDown)
+        drag_child.addEventListener('mouseup',dragMouseUp)
+
+    </script>
+</body>
+
+</html>
